@@ -479,6 +479,59 @@
             margin-bottom: 4px;
         }
 
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            min-width: 18px;
+            border: 2px solid #505050;
+            border-radius: 4px;
+            background: transparent;
+            cursor: pointer;
+            margin-top: 2px;
+            position: relative;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked {
+            background: #2eaadc;
+            border-color: #2eaadc;
+        }
+
+        .checkbox-item input[type="checkbox"]:checked::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 1px;
+            width: 4px;
+            height: 9px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
+        .checkbox-item input[type="checkbox"]:hover {
+            border-color: #2eaadc;
+        }
+
+        .checkbox-item .checkbox-text {
+            flex: 1;
+            outline: none;
+            min-height: 20px;
+        }
+
+        .checkbox-item.checked .checkbox-text {
+            text-decoration: line-through;
+            color: #6b6b6b;
+        }
+
         .status {
             font-size: 12px;
             color: #6b6b6b;
@@ -657,6 +710,17 @@
                         <text x="3" y="20" font-size="8" fill="currentColor" stroke="none">3</text>
                     </svg>
                 </button>
+                <button id="checkboxBtn" title="Checkbox List">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="5" width="4" height="4" rx="1"></rect>
+                        <line x1="10" y1="7" x2="21" y2="7"></line>
+                        <rect x="3" y="10" width="4" height="4" rx="1"></rect>
+                        <line x1="10" y1="12" x2="21" y2="12"></line>
+                        <path d="M4 15.5l1 1 2-2" stroke-width="1.5"></path>
+                        <rect x="3" y="15" width="4" height="4" rx="1"></rect>
+                        <line x1="10" y1="17" x2="21" y2="17" stroke="#6b6b6b"></line>
+                    </svg>
+                </button>
             </div>
 
             <div class="toolbar-group">
@@ -767,6 +831,7 @@
         const underlineBtn = document.getElementById('underlineBtn');
         const ulBtn = document.getElementById('ulBtn');
         const olBtn = document.getElementById('olBtn');
+        const checkboxBtn = document.getElementById('checkboxBtn');
         const textColorBtn = document.getElementById('textColorBtn');
         const highlightBtn = document.getElementById('highlightBtn');
         const colorPalette = document.getElementById('colorPalette');
@@ -1046,6 +1111,15 @@
                 noteDate.textContent = formatDate(note.date);
                 editor.innerHTML = note.content;
                 noteFolderSelect.value = note.folderId || '';
+
+                // Restore checkbox checked states
+                editor.querySelectorAll('.checkbox-item').forEach(item => {
+                    const checkbox = item.querySelector('input[type="checkbox"]');
+                    if (checkbox && checkbox.checked) {
+                        item.classList.add('checked');
+                    }
+                });
+
                 updateStatus('Loaded');
             }
         };
@@ -1215,6 +1289,89 @@
 
         // Ordered list
         olBtn.addEventListener('click', () => execCmd('insertOrderedList'));
+
+        // Checkbox list
+        const insertCheckbox = () => {
+            const selection = window.getSelection();
+            const range = selection.getRangeAt(0);
+
+            const checkboxItem = document.createElement('div');
+            checkboxItem.className = 'checkbox-item';
+            checkboxItem.innerHTML = `
+                <input type="checkbox">
+                <span class="checkbox-text" contenteditable="true"></span>
+            `;
+
+            range.deleteContents();
+            range.insertNode(checkboxItem);
+
+            // Focus on the text span
+            const textSpan = checkboxItem.querySelector('.checkbox-text');
+            textSpan.focus();
+
+            debouncedSave();
+        };
+
+        checkboxBtn.addEventListener('click', () => {
+            editor.focus();
+            insertCheckbox();
+        });
+
+        // Handle checkbox changes
+        editor.addEventListener('change', (e) => {
+            if (e.target.type === 'checkbox') {
+                const checkboxItem = e.target.closest('.checkbox-item');
+                if (checkboxItem) {
+                    checkboxItem.classList.toggle('checked', e.target.checked);
+                    debouncedSave();
+                }
+            }
+        });
+
+        // Handle Enter key in checkbox items
+        editor.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const selection = window.getSelection();
+                const checkboxItem = selection.anchorNode.closest ?
+                    selection.anchorNode.closest('.checkbox-item') :
+                    selection.anchorNode.parentElement.closest('.checkbox-item');
+
+                if (checkboxItem) {
+                    e.preventDefault();
+                    const newCheckbox = document.createElement('div');
+                    newCheckbox.className = 'checkbox-item';
+                    newCheckbox.innerHTML = `
+                        <input type="checkbox">
+                        <span class="checkbox-text" contenteditable="true"></span>
+                    `;
+                    checkboxItem.after(newCheckbox);
+                    newCheckbox.querySelector('.checkbox-text').focus();
+                    debouncedSave();
+                }
+            }
+
+            // Handle Backspace on empty checkbox
+            if (e.key === 'Backspace') {
+                const selection = window.getSelection();
+                const checkboxText = selection.anchorNode.closest ?
+                    selection.anchorNode.closest('.checkbox-text') :
+                    selection.anchorNode.parentElement.closest('.checkbox-text');
+
+                if (checkboxText && checkboxText.textContent === '' && selection.anchorOffset === 0) {
+                    e.preventDefault();
+                    const checkboxItem = checkboxText.closest('.checkbox-item');
+                    const prevItem = checkboxItem.previousElementSibling;
+                    checkboxItem.remove();
+
+                    if (prevItem && prevItem.classList.contains('checkbox-item')) {
+                        prevItem.querySelector('.checkbox-text').focus();
+                    } else {
+                        editor.focus();
+                    }
+                    debouncedSave();
+                }
+            }
+        });
 
         // Text color button
         textColorBtn.addEventListener('click', (e) => {
