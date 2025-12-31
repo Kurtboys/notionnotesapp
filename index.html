@@ -147,49 +147,39 @@
             display: block;
         }
 
-        .notes-menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #404040;
-        }
-
-        .notes-menu-header h3 {
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .new-note-btn, .new-folder-btn {
-            background: #2eaadc !important;
-            color: white !important;
-            padding: 4px 10px !important;
-            font-size: 12px !important;
-            border-radius: 4px;
+        .toolbar-text-btn {
+            background: none !important;
             border: none;
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            font-weight: 500;
+            border-radius: 4px;
             cursor: pointer;
+            white-space: nowrap;
         }
 
-        .new-note-btn:hover, .new-folder-btn:hover {
-            background: #2596c4 !important;
+        .toolbar-text-btn:hover {
+            background: #404040 !important;
+        }
+
+        .new-note-btn {
+            color: #ff7369 !important;
         }
 
         .new-folder-btn {
-            background: #404040 !important;
-            margin-left: 4px;
+            color: #ffdc49 !important;
         }
 
-        .new-folder-btn:hover {
-            background: #505050 !important;
+        .my-notes-btn {
+            color: #4ade80 !important;
         }
 
         .folder-tabs {
             display: flex;
             flex-wrap: wrap;
             gap: 4px;
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            margin-bottom: 8px;
+            padding-bottom: 8px;
             border-bottom: 1px solid #404040;
         }
 
@@ -726,23 +716,12 @@
 
             <div class="toolbar-spacer"></div>
 
-            <div class="menu-wrapper">
-                <button id="menuBtn" title="Notes Menu">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                        <line x1="3" y1="12" x2="21" y2="12"></line>
-                        <line x1="3" y1="18" x2="21" y2="18"></line>
-                    </svg>
-                </button>
-                <div class="notes-menu" id="notesMenu">
-                    <div class="notes-menu-header">
-                        <h3>My Notes</h3>
-                        <div>
-                            <button class="new-note-btn" id="newNoteBtn">+ Note</button>
-                            <button class="new-folder-btn" id="newFolderBtn">+ Folder</button>
-                        </div>
-                    </div>
+            <button class="toolbar-text-btn new-note-btn" id="newNoteBtn">+ New Note</button>
+            <button class="toolbar-text-btn new-folder-btn" id="newFolderBtn">+ New Folder</button>
 
+            <div class="menu-wrapper">
+                <button class="toolbar-text-btn my-notes-btn" id="menuBtn">My Notes</button>
+                <div class="notes-menu" id="notesMenu">
                     <div class="folder-tabs" id="folderTabs"></div>
 
                     <ul class="notes-list" id="notesList"></ul>
