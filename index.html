@@ -13,8 +13,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background-color: #ffffff;
-            color: #37352f;
+            background-color: #191919;
+            color: #e6e6e6;
             min-height: 100vh;
             padding: 16px;
         }
@@ -30,13 +30,13 @@
             gap: 8px;
             margin-bottom: 12px;
             padding-bottom: 8px;
-            border-bottom: 1px solid #e8e8e8;
+            border-bottom: 1px solid #333333;
         }
 
         .header h1 {
             font-size: 18px;
             font-weight: 600;
-            color: #37352f;
+            color: #e6e6e6;
         }
 
         .toolbar {
@@ -44,7 +44,7 @@
             flex-wrap: wrap;
             gap: 4px;
             padding: 8px;
-            background-color: #f7f6f3;
+            background-color: #2f2f2f;
             border-radius: 6px;
             margin-bottom: 12px;
             align-items: center;
@@ -55,7 +55,7 @@
             gap: 2px;
             align-items: center;
             padding-right: 8px;
-            border-right: 1px solid #e0dfdc;
+            border-right: 1px solid #404040;
             margin-right: 4px;
         }
 
@@ -72,7 +72,7 @@
             cursor: pointer;
             border-radius: 4px;
             font-size: 14px;
-            color: #37352f;
+            color: #e6e6e6;
             transition: background-color 0.15s ease;
             display: flex;
             align-items: center;
@@ -82,11 +82,11 @@
         }
 
         .toolbar button:hover {
-            background-color: #e8e8e8;
+            background-color: #404040;
         }
 
         .toolbar button.active {
-            background-color: #e8e8e8;
+            background-color: #404040;
         }
 
         .toolbar button svg {
@@ -96,11 +96,11 @@
 
         .font-size-select {
             padding: 4px 8px;
-            border: 1px solid #e0dfdc;
+            border: 1px solid #404040;
             border-radius: 4px;
-            background: white;
+            background: #252525;
             font-size: 13px;
-            color: #37352f;
+            color: #e6e6e6;
             cursor: pointer;
             height: 32px;
         }
@@ -129,15 +129,15 @@
             position: absolute;
             top: 100%;
             left: 0;
-            background: white;
-            border: 1px solid #e0dfdc;
+            background: #252525;
+            border: 1px solid #404040;
             border-radius: 6px;
             padding: 8px;
             display: none;
             grid-template-columns: repeat(5, 1fr);
             gap: 4px;
             z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
         }
 
         .color-palette.show {
@@ -149,7 +149,7 @@
             height: 24px;
             border-radius: 4px;
             cursor: pointer;
-            border: 1px solid #e0dfdc;
+            border: 1px solid #505050;
             transition: transform 0.1s ease;
         }
 
@@ -160,22 +160,22 @@
         .editor {
             min-height: 300px;
             padding: 12px;
-            border: 1px solid #e8e8e8;
+            border: 1px solid #333333;
             border-radius: 6px;
             outline: none;
             font-size: 15px;
             line-height: 1.6;
-            background-color: #ffffff;
+            background-color: #191919;
         }
 
         .editor:focus {
             border-color: #2eaadc;
-            box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.1);
+            box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.2);
         }
 
         .editor:empty::before {
             content: "What's on your mind? Start typing...";
-            color: #9b9a97;
+            color: #6b6b6b;
             pointer-events: none;
         }
 
@@ -190,13 +190,13 @@
 
         .status {
             font-size: 12px;
-            color: #9b9a97;
+            color: #6b6b6b;
             margin-top: 8px;
             text-align: right;
         }
 
         .status.saved {
-            color: #0f7b6c;
+            color: #4ade80;
         }
 
         /* Responsive adjustments */
@@ -302,16 +302,16 @@
                         <span class="color-indicator" id="colorIndicator"></span>
                     </button>
                     <div class="color-palette" id="colorPalette">
-                        <div class="color-swatch" style="background-color: #37352f" data-color="#37352f" title="Default"></div>
+                        <div class="color-swatch" style="background-color: #e6e6e6" data-color="#e6e6e6" title="Default"></div>
                         <div class="color-swatch" style="background-color: #9b9a97" data-color="#9b9a97" title="Gray"></div>
-                        <div class="color-swatch" style="background-color: #64473a" data-color="#64473a" title="Brown"></div>
-                        <div class="color-swatch" style="background-color: #d9730d" data-color="#d9730d" title="Orange"></div>
-                        <div class="color-swatch" style="background-color: #dfab01" data-color="#dfab01" title="Yellow"></div>
-                        <div class="color-swatch" style="background-color: #0f7b6c" data-color="#0f7b6c" title="Green"></div>
-                        <div class="color-swatch" style="background-color: #0b6e99" data-color="#0b6e99" title="Blue"></div>
-                        <div class="color-swatch" style="background-color: #6940a5" data-color="#6940a5" title="Purple"></div>
-                        <div class="color-swatch" style="background-color: #ad1a72" data-color="#ad1a72" title="Pink"></div>
-                        <div class="color-swatch" style="background-color: #e03e3e" data-color="#e03e3e" title="Red"></div>
+                        <div class="color-swatch" style="background-color: #d4a574" data-color="#d4a574" title="Brown"></div>
+                        <div class="color-swatch" style="background-color: #ffa344" data-color="#ffa344" title="Orange"></div>
+                        <div class="color-swatch" style="background-color: #ffdc49" data-color="#ffdc49" title="Yellow"></div>
+                        <div class="color-swatch" style="background-color: #4dab9a" data-color="#4dab9a" title="Green"></div>
+                        <div class="color-swatch" style="background-color: #529cca" data-color="#529cca" title="Blue"></div>
+                        <div class="color-swatch" style="background-color: #9a6dd7" data-color="#9a6dd7" title="Purple"></div>
+                        <div class="color-swatch" style="background-color: #e255a1" data-color="#e255a1" title="Pink"></div>
+                        <div class="color-swatch" style="background-color: #ff7369" data-color="#ff7369" title="Red"></div>
                     </div>
                 </div>
                 <div class="color-picker-wrapper">
@@ -321,19 +321,19 @@
                             <path d="M5.343 18.657l-1.414 1.414 2.121 2.121 1.414-1.414-2.121-2.121z"></path>
                             <path d="M18.657 6.343l-1.414-1.414-1.414 1.414 1.414 1.414 1.414-1.414z"></path>
                         </svg>
-                        <span class="color-indicator" id="highlightIndicator" style="background-color: #fef3c7"></span>
+                        <span class="color-indicator" id="highlightIndicator" style="background-color: #5c4b1f"></span>
                     </button>
                     <div class="color-palette" id="highlightPalette">
-                        <div class="color-swatch" style="background-color: transparent; border: 2px dashed #ccc" data-color="transparent" title="None"></div>
-                        <div class="color-swatch" style="background-color: #fef3c7" data-color="#fef3c7" title="Yellow"></div>
-                        <div class="color-swatch" style="background-color: #d1fae5" data-color="#d1fae5" title="Green"></div>
-                        <div class="color-swatch" style="background-color: #dbeafe" data-color="#dbeafe" title="Blue"></div>
-                        <div class="color-swatch" style="background-color: #fce7f3" data-color="#fce7f3" title="Pink"></div>
-                        <div class="color-swatch" style="background-color: #ede9fe" data-color="#ede9fe" title="Purple"></div>
-                        <div class="color-swatch" style="background-color: #fee2e2" data-color="#fee2e2" title="Red"></div>
-                        <div class="color-swatch" style="background-color: #ffedd5" data-color="#ffedd5" title="Orange"></div>
-                        <div class="color-swatch" style="background-color: #f3f4f6" data-color="#f3f4f6" title="Gray"></div>
-                        <div class="color-swatch" style="background-color: #e5e7eb" data-color="#e5e7eb" title="Dark Gray"></div>
+                        <div class="color-swatch" style="background-color: transparent; border: 2px dashed #555" data-color="transparent" title="None"></div>
+                        <div class="color-swatch" style="background-color: #5c4b1f" data-color="#5c4b1f" title="Yellow"></div>
+                        <div class="color-swatch" style="background-color: #1e3a32" data-color="#1e3a32" title="Green"></div>
+                        <div class="color-swatch" style="background-color: #1e3a5f" data-color="#1e3a5f" title="Blue"></div>
+                        <div class="color-swatch" style="background-color: #4a2545" data-color="#4a2545" title="Pink"></div>
+                        <div class="color-swatch" style="background-color: #352b5e" data-color="#352b5e" title="Purple"></div>
+                        <div class="color-swatch" style="background-color: #522b29" data-color="#522b29" title="Red"></div>
+                        <div class="color-swatch" style="background-color: #5c3d1f" data-color="#5c3d1f" title="Orange"></div>
+                        <div class="color-swatch" style="background-color: #333333" data-color="#333333" title="Gray"></div>
+                        <div class="color-swatch" style="background-color: #404040" data-color="#404040" title="Dark Gray"></div>
                     </div>
                 </div>
             </div>
@@ -372,8 +372,8 @@
         const clearBtn = document.getElementById('clearBtn');
 
         // Current colors
-        let currentTextColor = '#37352f';
-        let currentHighlightColor = '#fef3c7';
+        let currentTextColor = '#e6e6e6';
+        let currentHighlightColor = '#5c4b1f';
 
         // Storage key - uses URL hash for unique notes per embed
         const getStorageKey = () => {
