@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's Next</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #ffffff;
+            color: #37352f;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #37352f;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            padding: 8px;
+            background-color: #f7f6f3;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .toolbar-group {
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            padding-right: 8px;
+            border-right: 1px solid #e0dfdc;
+            margin-right: 4px;
+        }
+
+        .toolbar-group:last-child {
+            border-right: none;
+            margin-right: 0;
+            padding-right: 0;
+        }
+
+        .toolbar button {
+            background: none;
+            border: none;
+            padding: 6px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #37352f;
+            transition: background-color 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            height: 32px;
+        }
+
+        .toolbar button:hover {
+            background-color: #e8e8e8;
+        }
+
+        .toolbar button.active {
+            background-color: #e8e8e8;
+        }
+
+        .toolbar button svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .font-size-select {
+            padding: 4px 8px;
+            border: 1px solid #e0dfdc;
+            border-radius: 4px;
+            background: white;
+            font-size: 13px;
+            color: #37352f;
+            cursor: pointer;
+            height: 32px;
+        }
+
+        .color-picker-wrapper {
+            position: relative;
+        }
+
+        .color-picker-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-picker-btn .color-indicator {
+            width: 16px;
+            height: 3px;
+            background-color: currentColor;
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 1px;
+        }
+
+        .color-palette {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid #e0dfdc;
+            border-radius: 6px;
+            padding: 8px;
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-palette.show {
+            display: grid;
+        }
+
+        .color-swatch {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 1px solid #e0dfdc;
+            transition: transform 0.1s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.1);
+        }
+
+        .editor {
+            min-height: 300px;
+            padding: 12px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            outline: none;
+            font-size: 15px;
+            line-height: 1.6;
+            background-color: #ffffff;
+        }
+
+        .editor:focus {
+            border-color: #2eaadc;
+            box-shadow: 0 0 0 2px rgba(46, 170, 220, 0.1);
+        }
+
+        .editor:empty::before {
+            content: "What's on your mind? Start typing...";
+            color: #9b9a97;
+            pointer-events: none;
+        }
+
+        .editor ul, .editor ol {
+            margin-left: 24px;
+            margin-bottom: 8px;
+        }
+
+        .editor li {
+            margin-bottom: 4px;
+        }
+
+        .status {
+            font-size: 12px;
+            color: #9b9a97;
+            margin-top: 8px;
+            text-align: right;
+        }
+
+        .status.saved {
+            color: #0f7b6c;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+
+            .toolbar {
+                gap: 2px;
+                padding: 6px;
+            }
+
+            .toolbar button {
+                padding: 4px 6px;
+                min-width: 28px;
+                height: 28px;
+            }
+
+            .font-size-select {
+                height: 28px;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+                <line x1="16" y1="13" x2="8" y2="13"></line>
+                <line x1="16" y1="17" x2="8" y2="17"></line>
+                <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+            <h1>What's Next</h1>
+        </div>
+
+        <div class="toolbar">
+            <div class="toolbar-group">
+                <select class="font-size-select" id="fontSizeSelect" title="Font Size">
+                    <option value="1">Small</option>
+                    <option value="3" selected>Normal</option>
+                    <option value="4">Large</option>
+                    <option value="5">X-Large</option>
+                    <option value="6">XX-Large</option>
+                </select>
+            </div>
+
+            <div class="toolbar-group">
+                <button id="boldBtn" title="Bold (Ctrl+B)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                        <path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path>
+                    </svg>
+                </button>
+                <button id="italicBtn" title="Italic (Ctrl+I)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="4" x2="10" y2="4"></line>
+                        <line x1="14" y1="20" x2="5" y2="20"></line>
+                        <line x1="15" y1="4" x2="9" y2="20"></line>
+                    </svg>
+                </button>
+                <button id="underlineBtn" title="Underline (Ctrl+U)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path>
+                        <line x1="4" y1="21" x2="20" y2="21"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <button id="ulBtn" title="Bullet List">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <circle cx="4" cy="6" r="1" fill="currentColor"></circle>
+                        <circle cx="4" cy="12" r="1" fill="currentColor"></circle>
+                        <circle cx="4" cy="18" r="1" fill="currentColor"></circle>
+                    </svg>
+                </button>
+                <button id="olBtn" title="Numbered List">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="10" y1="6" x2="21" y2="6"></line>
+                        <line x1="10" y1="12" x2="21" y2="12"></line>
+                        <line x1="10" y1="18" x2="21" y2="18"></line>
+                        <text x="3" y="8" font-size="8" fill="currentColor" stroke="none">1</text>
+                        <text x="3" y="14" font-size="8" fill="currentColor" stroke="none">2</text>
+                        <text x="3" y="20" font-size="8" fill="currentColor" stroke="none">3</text>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="toolbar-group">
+                <div class="color-picker-wrapper">
+                    <button id="textColorBtn" class="color-picker-btn" title="Text Color">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 20h16"></path>
+                            <path d="M12 4l-5 12h10l-5-12z"></path>
+                        </svg>
+                        <span class="color-indicator" id="colorIndicator"></span>
+                    </button>
+                    <div class="color-palette" id="colorPalette">
+                        <div class="color-swatch" style="background-color: #37352f" data-color="#37352f" title="Default"></div>
+                        <div class="color-swatch" style="background-color: #9b9a97" data-color="#9b9a97" title="Gray"></div>
+                        <div class="color-swatch" style="background-color: #64473a" data-color="#64473a" title="Brown"></div>
+                        <div class="color-swatch" style="background-color: #d9730d" data-color="#d9730d" title="Orange"></div>
+                        <div class="color-swatch" style="background-color: #dfab01" data-color="#dfab01" title="Yellow"></div>
+                        <div class="color-swatch" style="background-color: #0f7b6c" data-color="#0f7b6c" title="Green"></div>
+                        <div class="color-swatch" style="background-color: #0b6e99" data-color="#0b6e99" title="Blue"></div>
+                        <div class="color-swatch" style="background-color: #6940a5" data-color="#6940a5" title="Purple"></div>
+                        <div class="color-swatch" style="background-color: #ad1a72" data-color="#ad1a72" title="Pink"></div>
+                        <div class="color-swatch" style="background-color: #e03e3e" data-color="#e03e3e" title="Red"></div>
+                    </div>
+                </div>
+                <div class="color-picker-wrapper">
+                    <button id="highlightBtn" class="color-picker-btn" title="Highlight">
+                        <svg viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                            <path d="M15.243 4.515l-6.738 6.737-.707 2.121-1.04 1.041 2.828 2.829 1.04-1.041 2.122-.707 6.737-6.738-4.242-4.242z" opacity="0.3"></path>
+                            <path d="M5.343 18.657l-1.414 1.414 2.121 2.121 1.414-1.414-2.121-2.121z"></path>
+                            <path d="M18.657 6.343l-1.414-1.414-1.414 1.414 1.414 1.414 1.414-1.414z"></path>
+                        </svg>
+                        <span class="color-indicator" id="highlightIndicator" style="background-color: #fef3c7"></span>
+                    </button>
+                    <div class="color-palette" id="highlightPalette">
+                        <div class="color-swatch" style="background-color: transparent; border: 2px dashed #ccc" data-color="transparent" title="None"></div>
+                        <div class="color-swatch" style="background-color: #fef3c7" data-color="#fef3c7" title="Yellow"></div>
+                        <div class="color-swatch" style="background-color: #d1fae5" data-color="#d1fae5" title="Green"></div>
+                        <div class="color-swatch" style="background-color: #dbeafe" data-color="#dbeafe" title="Blue"></div>
+                        <div class="color-swatch" style="background-color: #fce7f3" data-color="#fce7f3" title="Pink"></div>
+                        <div class="color-swatch" style="background-color: #ede9fe" data-color="#ede9fe" title="Purple"></div>
+                        <div class="color-swatch" style="background-color: #fee2e2" data-color="#fee2e2" title="Red"></div>
+                        <div class="color-swatch" style="background-color: #ffedd5" data-color="#ffedd5" title="Orange"></div>
+                        <div class="color-swatch" style="background-color: #f3f4f6" data-color="#f3f4f6" title="Gray"></div>
+                        <div class="color-swatch" style="background-color: #e5e7eb" data-color="#e5e7eb" title="Dark Gray"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar-group">
+                <button id="clearBtn" title="Clear Formatting">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="editor" id="editor" contenteditable="true"></div>
+
+        <div class="status" id="status">Ready</div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const editor = document.getElementById('editor');
+        const status = document.getElementById('status');
+        const fontSizeSelect = document.getElementById('fontSizeSelect');
+        const boldBtn = document.getElementById('boldBtn');
+        const italicBtn = document.getElementById('italicBtn');
+        const underlineBtn = document.getElementById('underlineBtn');
+        const ulBtn = document.getElementById('ulBtn');
+        const olBtn = document.getElementById('olBtn');
+        const textColorBtn = document.getElementById('textColorBtn');
+        const highlightBtn = document.getElementById('highlightBtn');
+        const colorPalette = document.getElementById('colorPalette');
+        const highlightPalette = document.getElementById('highlightPalette');
+        const colorIndicator = document.getElementById('colorIndicator');
+        const highlightIndicator = document.getElementById('highlightIndicator');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Current colors
+        let currentTextColor = '#37352f';
+        let currentHighlightColor = '#fef3c7';
+
+        // Storage key - uses URL hash for unique notes per embed
+        const getStorageKey = () => {
+            const hash = window.location.hash.slice(1) || 'default';
+            return `whats-next-notes-${hash}`;
+        };
+
+        // Load saved content
+        const loadContent = () => {
+            const saved = localStorage.getItem(getStorageKey());
+            if (saved) {
+                editor.innerHTML = saved;
+                updateStatus('Loaded');
+            }
+        };
+
+        // Save content
+        const saveContent = () => {
+            localStorage.setItem(getStorageKey(), editor.innerHTML);
+            updateStatus('Saved');
+        };
+
+        // Update status message
+        const updateStatus = (message) => {
+            status.textContent = message;
+            status.classList.toggle('saved', message === 'Saved');
+
+            if (message === 'Saved') {
+                setTimeout(() => {
+                    status.textContent = 'Ready';
+                    status.classList.remove('saved');
+                }, 2000);
+            }
+        };
+
+        // Debounce function for auto-save
+        const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
+            };
+        };
+
+        // Auto-save on content change
+        const debouncedSave = debounce(saveContent, 500);
+
+        // Execute command helper
+        const execCmd = (command, value = null) => {
+            document.execCommand(command, false, value);
+            editor.focus();
+        };
+
+        // Toggle color palette
+        const togglePalette = (palette) => {
+            const isShown = palette.classList.contains('show');
+            closeAllPalettes();
+            if (!isShown) {
+                palette.classList.add('show');
+            }
+        };
+
+        // Close all color palettes
+        const closeAllPalettes = () => {
+            colorPalette.classList.remove('show');
+            highlightPalette.classList.remove('show');
+        };
+
+        // Event Listeners
+
+        // Font size change
+        fontSizeSelect.addEventListener('change', (e) => {
+            execCmd('fontSize', e.target.value);
+        });
+
+        // Bold
+        boldBtn.addEventListener('click', () => execCmd('bold'));
+
+        // Italic
+        italicBtn.addEventListener('click', () => execCmd('italic'));
+
+        // Underline
+        underlineBtn.addEventListener('click', () => execCmd('underline'));
+
+        // Unordered list
+        ulBtn.addEventListener('click', () => execCmd('insertUnorderedList'));
+
+        // Ordered list
+        olBtn.addEventListener('click', () => execCmd('insertOrderedList'));
+
+        // Text color button
+        textColorBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePalette(colorPalette);
+        });
+
+        // Highlight button
+        highlightBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePalette(highlightPalette);
+        });
+
+        // Color palette clicks
+        colorPalette.addEventListener('click', (e) => {
+            if (e.target.classList.contains('color-swatch')) {
+                currentTextColor = e.target.dataset.color;
+                colorIndicator.style.backgroundColor = currentTextColor;
+                execCmd('foreColor', currentTextColor);
+                closeAllPalettes();
+            }
+        });
+
+        // Highlight palette clicks
+        highlightPalette.addEventListener('click', (e) => {
+            if (e.target.classList.contains('color-swatch')) {
+                currentHighlightColor = e.target.dataset.color;
+                highlightIndicator.style.backgroundColor = currentHighlightColor === 'transparent' ? '#ccc' : currentHighlightColor;
+                if (currentHighlightColor === 'transparent') {
+                    execCmd('removeFormat');
+                } else {
+                    execCmd('hiliteColor', currentHighlightColor);
+                }
+                closeAllPalettes();
+            }
+        });
+
+        // Clear formatting
+        clearBtn.addEventListener('click', () => execCmd('removeFormat'));
+
+        // Close palettes when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.color-picker-wrapper')) {
+                closeAllPalettes();
+            }
+        });
+
+        // Editor input - auto save
+        editor.addEventListener('input', () => {
+            debouncedSave();
+        });
+
+        // Keyboard shortcuts
+        editor.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key.toLowerCase()) {
+                    case 'b':
+                        e.preventDefault();
+                        execCmd('bold');
+                        break;
+                    case 'i':
+                        e.preventDefault();
+                        execCmd('italic');
+                        break;
+                    case 'u':
+                        e.preventDefault();
+                        execCmd('underline');
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        saveContent();
+                        break;
+                }
+            }
+        });
+
+        // Update toolbar state based on selection
+        const updateToolbarState = () => {
+            boldBtn.classList.toggle('active', document.queryCommandState('bold'));
+            italicBtn.classList.toggle('active', document.queryCommandState('italic'));
+            underlineBtn.classList.toggle('active', document.queryCommandState('underline'));
+        };
+
+        editor.addEventListener('mouseup', updateToolbarState);
+        editor.addEventListener('keyup', updateToolbarState);
+
+        // Initialize
+        loadContent();
+        colorIndicator.style.backgroundColor = currentTextColor;
+
+        // Handle hash changes for different note instances
+        window.addEventListener('hashchange', loadContent);
+    </script>
+</body>
+</html>
