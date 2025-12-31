@@ -1461,20 +1461,48 @@
         editor.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {
                 const selection = window.getSelection();
-                const checkboxItem = selection.anchorNode.closest ?
-                    selection.anchorNode.closest('.checkbox-item') :
-                    selection.anchorNode.parentElement.closest('.checkbox-item');
+                const anchorNode = selection.anchorNode;
+
+                const checkboxItem = anchorNode?.closest ?
+                    anchorNode.closest('.checkbox-item') :
+                    anchorNode?.parentElement?.closest('.checkbox-item');
 
                 if (checkboxItem) {
                     e.preventDefault();
+
+                    const checkboxText = checkboxItem.querySelector('.checkbox-text');
+                    const range = selection.getRangeAt(0);
+
+                    // Get text after cursor to move to new checkbox
+                    const afterRange = document.createRange();
+                    afterRange.setStart(range.endContainer, range.endOffset);
+                    afterRange.setEndAfter(checkboxText.lastChild || checkboxText);
+                    const afterContent = afterRange.extractContents();
+
+                    // Create new checkbox with the extracted content
                     const newCheckbox = document.createElement('div');
                     newCheckbox.className = 'checkbox-item';
                     newCheckbox.innerHTML = `
                         <input type="checkbox">
                         <span class="checkbox-text" contenteditable="true"></span>
                     `;
+
+                    const newTextSpan = newCheckbox.querySelector('.checkbox-text');
+                    newTextSpan.appendChild(afterContent);
+
                     checkboxItem.after(newCheckbox);
-                    newCheckbox.querySelector('.checkbox-text').focus();
+
+                    // Focus on the new checkbox text
+                    setTimeout(() => {
+                        newTextSpan.focus();
+                        const newRange = document.createRange();
+                        newRange.setStart(newTextSpan, 0);
+                        newRange.collapse(true);
+                        const sel = window.getSelection();
+                        sel.removeAllRanges();
+                        sel.addRange(newRange);
+                    }, 0);
+
                     debouncedSave();
                 }
             }
