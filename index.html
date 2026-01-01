@@ -973,10 +973,18 @@
         let currentFolderFilter = 'all';
         let editingFolderId = null;
 
-        // Storage keys
-        const NOTES_KEY = 'whats-next-notes';
-        const FOLDERS_KEY = 'whats-next-folders';
-        const TRASH_KEY = 'whats-next-trash';
+        // Get page ID from URL parameter for isolated instances
+        const getPageId = () => {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id') || 'default';
+        };
+
+        const PAGE_ID = getPageId();
+
+        // Storage keys (unique per page ID)
+        const NOTES_KEY = `whats-next-notes-${PAGE_ID}`;
+        const FOLDERS_KEY = `whats-next-folders-${PAGE_ID}`;
+        const TRASH_KEY = `whats-next-trash-${PAGE_ID}`;
 
         // Trash retention period (30 days in milliseconds)
         const TRASH_RETENTION_DAYS = 30;
