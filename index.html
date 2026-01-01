@@ -203,6 +203,188 @@
             height: 20px;
         }
 
+        /* Feed View Styles */
+        .feed-toggle-btn {
+            background: none !important;
+            border: 1px solid #404040 !important;
+            padding: 4px 10px !important;
+            font-size: 12px !important;
+            color: #9b9a97 !important;
+            border-radius: 4px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .feed-toggle-btn:hover {
+            background: #333333 !important;
+            color: #e6e6e6 !important;
+        }
+
+        .feed-toggle-btn.active {
+            background: #2eaadc !important;
+            border-color: #2eaadc !important;
+            color: white !important;
+        }
+
+        .feed-container {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+            padding-bottom: 20px;
+        }
+
+        .feed-container.show {
+            display: flex;
+        }
+
+        .feed-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #333333;
+            margin-bottom: 8px;
+        }
+
+        .feed-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #e6e6e6;
+        }
+
+        .feed-close-btn {
+            background: none;
+            border: 1px solid #404040;
+            color: #9b9a97;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .feed-close-btn:hover {
+            background: #333333;
+            color: #e6e6e6;
+        }
+
+        .feed-item {
+            background: #252525;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+        }
+
+        .feed-item:hover {
+            border-color: #2eaadc;
+        }
+
+        .feed-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .feed-item-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e6e6e6;
+            margin-bottom: 4px;
+        }
+
+        .feed-item-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .feed-item-date {
+            font-size: 12px;
+            color: #6b6b6b;
+        }
+
+        .feed-item-folder {
+            font-size: 10px;
+            color: #2eaadc;
+            background: rgba(46, 170, 220, 0.1);
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+
+        .feed-item-content {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #c4c4c4;
+            max-height: 300px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .feed-item-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(transparent, #252525);
+            pointer-events: none;
+        }
+
+        .feed-item-content.short::after {
+            display: none;
+        }
+
+        .feed-item-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #333333;
+        }
+
+        .feed-item-btn {
+            background: none;
+            border: 1px solid #404040;
+            color: #9b9a97;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .feed-item-btn:hover {
+            background: #333333;
+            color: #e6e6e6;
+        }
+
+        .feed-item-btn.edit {
+            border-color: #2eaadc;
+            color: #2eaadc;
+        }
+
+        .feed-item-btn.edit:hover {
+            background: rgba(46, 170, 220, 0.1);
+        }
+
+        .feed-empty {
+            text-align: center;
+            color: #6b6b6b;
+            padding: 40px 20px;
+            font-size: 14px;
+        }
+
+        .single-note-view {
+            display: block;
+        }
+
+        .single-note-view.hidden {
+            display: none;
+        }
+
         .folder-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -881,6 +1063,7 @@
 
             <button class="toolbar-text-btn new-note-btn" id="newNoteBtn">+ New Note</button>
             <button class="toolbar-text-btn new-folder-btn" id="newFolderBtn">+ New Folder</button>
+            <button class="feed-toggle-btn" id="feedToggleBtn">📋 Feed View</button>
 
             <div class="menu-wrapper">
                 <button class="toolbar-text-btn my-notes-btn" id="menuBtn">My Notes</button>
@@ -892,30 +1075,36 @@
             </div>
         </div>
 
-        <div class="note-header">
-            <div class="note-header-top">
-                <input type="text" class="note-title" id="noteTitle" placeholder="Untitled Note">
-                <button class="delete-current-note-btn" id="deleteNoteBtn" title="Delete Note">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6"></polyline>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                        <line x1="10" y1="11" x2="10" y2="17"></line>
-                        <line x1="14" y1="11" x2="14" y2="17"></line>
-                    </svg>
-                </button>
-            </div>
-            <div class="note-meta">
-                <div class="note-date" id="noteDate"></div>
-                <div class="note-folder-select">
-                    <label>Folder:</label>
-                    <select id="noteFolderSelect"></select>
+        <!-- Single Note View -->
+        <div class="single-note-view" id="singleNoteView">
+            <div class="note-header">
+                <div class="note-header-top">
+                    <input type="text" class="note-title" id="noteTitle" placeholder="Untitled Note">
+                    <button class="delete-current-note-btn" id="deleteNoteBtn" title="Delete Note">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                        </svg>
+                    </button>
+                </div>
+                <div class="note-meta">
+                    <div class="note-date" id="noteDate"></div>
+                    <div class="note-folder-select">
+                        <label>Folder:</label>
+                        <select id="noteFolderSelect"></select>
+                    </div>
                 </div>
             </div>
+
+            <div class="editor" id="editor" contenteditable="true"></div>
+
+            <div class="status" id="status">Ready</div>
         </div>
 
-        <div class="editor" id="editor" contenteditable="true"></div>
-
-        <div class="status" id="status">Ready</div>
+        <!-- Feed View -->
+        <div class="feed-container" id="feedContainer"></div>
     </div>
 
     <!-- Folder Modal -->
@@ -954,6 +1143,9 @@
         const newNoteBtn = document.getElementById('newNoteBtn');
         const newFolderBtn = document.getElementById('newFolderBtn');
         const deleteNoteBtn = document.getElementById('deleteNoteBtn');
+        const feedToggleBtn = document.getElementById('feedToggleBtn');
+        const feedContainer = document.getElementById('feedContainer');
+        const singleNoteView = document.getElementById('singleNoteView');
         const noteTitle = document.getElementById('noteTitle');
         const noteDate = document.getElementById('noteDate');
         const noteFolderSelect = document.getElementById('noteFolderSelect');
@@ -972,6 +1164,8 @@
         let currentNoteId = null;
         let currentFolderFilter = 'all';
         let editingFolderId = null;
+        let isFeedView = false;
+        let feedFolderId = 'all';
 
         // Get page ID from URL parameter for isolated instances
         const getPageId = () => {
@@ -1530,6 +1724,158 @@
             }
         };
 
+        // Feed View Functions
+        const showFeedView = (folderId = 'all') => {
+            saveCurrentNote();
+            isFeedView = true;
+            feedFolderId = folderId;
+            singleNoteView.classList.add('hidden');
+            feedContainer.classList.add('show');
+            feedToggleBtn.classList.add('active');
+            feedToggleBtn.textContent = '📝 Note View';
+            renderFeed();
+        };
+
+        const hideFeedView = () => {
+            isFeedView = false;
+            feedContainer.classList.remove('show');
+            singleNoteView.classList.remove('hidden');
+            feedToggleBtn.classList.remove('active');
+            feedToggleBtn.textContent = '📋 Feed View';
+        };
+
+        const toggleFeedView = () => {
+            if (isFeedView) {
+                hideFeedView();
+            } else {
+                showFeedView();
+            }
+        };
+
+        const renderFeed = () => {
+            let notes = getNotes();
+            const folders = getFolders();
+
+            // Filter by folder if not 'all'
+            if (feedFolderId !== 'all') {
+                if (feedFolderId === 'unfiled') {
+                    notes = notes.filter(n => !n.folderId);
+                } else {
+                    notes = notes.filter(n => n.folderId === feedFolderId);
+                }
+            }
+
+            // Get folder name for header
+            let folderName = 'All Notes';
+            if (feedFolderId === 'unfiled') {
+                folderName = 'Unfiled Notes';
+            } else if (feedFolderId !== 'all') {
+                const folder = folders.find(f => f.id === feedFolderId);
+                folderName = folder ? folder.name : 'All Notes';
+            }
+
+            // Build folder filter buttons
+            let folderButtons = `
+                <button class="feed-item-btn ${feedFolderId === 'all' ? 'edit' : ''}" data-folder="all">All</button>
+            `;
+            folders.forEach(folder => {
+                folderButtons += `
+                    <button class="feed-item-btn ${feedFolderId === folder.id ? 'edit' : ''}" data-folder="${folder.id}">${folder.name}</button>
+                `;
+            });
+            folderButtons += `
+                <button class="feed-item-btn ${feedFolderId === 'unfiled' ? 'edit' : ''}" data-folder="unfiled">Unfiled</button>
+            `;
+
+            if (notes.length === 0) {
+                feedContainer.innerHTML = `
+                    <div class="feed-header">
+                        <div class="feed-title">${folderName}</div>
+                        <button class="feed-close-btn" id="feedCloseBtn">✕ Close Feed</button>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                        ${folderButtons}
+                    </div>
+                    <div class="feed-empty">No notes in this folder</div>
+                `;
+            } else {
+                feedContainer.innerHTML = `
+                    <div class="feed-header">
+                        <div class="feed-title">${folderName} (${notes.length} notes)</div>
+                        <button class="feed-close-btn" id="feedCloseBtn">✕ Close Feed</button>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px;">
+                        ${folderButtons}
+                    </div>
+                    ${notes.map(note => {
+                        const contentHeight = note.content.length;
+                        const isShort = contentHeight < 500;
+                        return `
+                            <div class="feed-item" data-id="${note.id}">
+                                <div class="feed-item-title">${note.title || 'Untitled Note'}</div>
+                                <div class="feed-item-meta">
+                                    <span class="feed-item-date">${formatDate(note.date)}</span>
+                                    <span class="feed-item-folder">${getFolderName(note.folderId)}</span>
+                                </div>
+                                <div class="feed-item-content ${isShort ? 'short' : ''}">${note.content || '<em style="color: #6b6b6b;">Empty note</em>'}</div>
+                                <div class="feed-item-actions">
+                                    <button class="feed-item-btn edit" data-id="${note.id}">Edit Note</button>
+                                    <button class="feed-item-btn delete" data-id="${note.id}">Delete</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                `;
+            }
+
+            // Add event listeners
+            const closeBtn = document.getElementById('feedCloseBtn');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', hideFeedView);
+            }
+
+            // Folder filter buttons
+            feedContainer.querySelectorAll('[data-folder]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    feedFolderId = btn.dataset.folder;
+                    renderFeed();
+                });
+            });
+
+            // Edit buttons
+            feedContainer.querySelectorAll('.feed-item-btn.edit').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    hideFeedView();
+                    loadNote(btn.dataset.id);
+                });
+            });
+
+            // Delete buttons
+            feedContainer.querySelectorAll('.feed-item-btn.delete').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const noteId = btn.dataset.id;
+                    const note = getNotes().find(n => n.id === noteId);
+                    if (confirm(`Move "${note?.title || 'Untitled Note'}" to trash?`)) {
+                        moveToTrash(noteId);
+                        renderFeed();
+                    }
+                });
+            });
+
+            // Click on feed item to edit
+            feedContainer.querySelectorAll('.feed-item').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    if (!e.target.closest('.feed-item-btn')) {
+                        hideFeedView();
+                        loadNote(item.dataset.id);
+                    }
+                });
+            });
+        };
+
         // Debounce function for auto-save
         const debounce = (func, wait) => {
             let timeout;
@@ -1925,6 +2271,12 @@
         deleteNoteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteCurrentNote();
+        });
+
+        // Feed view toggle button
+        feedToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFeedView();
         });
 
         // Folder modal handlers
